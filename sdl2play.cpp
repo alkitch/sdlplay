@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 
+
+//Just a play thing 
 constexpr int SCREEN_WIDTH = 800;
 constexpr int SCREEN_HEIGHT = 600;
 
