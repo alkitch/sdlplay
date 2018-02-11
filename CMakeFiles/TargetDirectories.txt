@@ -1,3 +1,4 @@
-/home/pi/Projects/sdl/CMakeFiles/rebuild_cache.dir
-/home/pi/Projects/sdl/CMakeFiles/edit_cache.dir
-/home/pi/Projects/sdl/CMakeFiles/sdlplay.dir
+/home/pi/Projects/sdl/sdlplay/CMakeFiles/rebuild_cache.dir
+/home/pi/Projects/sdl/sdlplay/CMakeFiles/edit_cache.dir
+/home/pi/Projects/sdl/sdlplay/CMakeFiles/sdl2helloworld.dir
+/home/pi/Projects/sdl/sdlplay/CMakeFiles/sdlplay.dir

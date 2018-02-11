@@ -41,7 +41,7 @@ set(CMAKE_CXX_LINKER_PREFERENCE_PROPAGATES 1)
 # Save compiler ABI information.
 set(CMAKE_CXX_SIZEOF_DATA_PTR "4")
 set(CMAKE_CXX_COMPILER_ABI "ELF")
-set(CMAKE_CXX_LIBRARY_ARCHITECTURE "i386-linux-gnu")
+set(CMAKE_CXX_LIBRARY_ARCHITECTURE "arm-linux-gnueabihf")
 
 if(CMAKE_CXX_SIZEOF_DATA_PTR)
   set(CMAKE_SIZEOF_VOID_P "${CMAKE_CXX_SIZEOF_DATA_PTR}")
@@ -52,7 +52,7 @@ if(CMAKE_CXX_COMPILER_ABI)
 endif()
 
 if(CMAKE_CXX_LIBRARY_ARCHITECTURE)
-  set(CMAKE_LIBRARY_ARCHITECTURE "i386-linux-gnu")
+  set(CMAKE_LIBRARY_ARCHITECTURE "arm-linux-gnueabihf")
 endif()
 
 set(CMAKE_CXX_CL_SHOWINCLUDES_PREFIX "")
@@ -65,5 +65,5 @@ endif()
 
 
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;m;c")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/usr/lib/gcc/i686-linux-gnu/6;/usr/lib/i386-linux-gnu;/usr/lib;/lib/i386-linux-gnu;/lib")
+set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/usr/lib/gcc/arm-linux-gnueabihf/6;/usr/lib/arm-linux-gnueabihf;/usr/lib;/lib/arm-linux-gnueabihf")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pi/Projects/sdl
+CMAKE_SOURCE_DIR = /home/pi/Projects/sdl/sdlplay
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/Projects/sdl
+CMAKE_BINARY_DIR = /home/pi/Projects/sdl/sdlplay
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/Projects/sdl/CMakeFiles /home/pi/Projects/sdl/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/Projects/sdl/sdlplay/CMakeFiles /home/pi/Projects/sdl/sdlplay/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/Projects/sdl/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/Projects/sdl/sdlplay/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named sdl2helloworld
+
+# Build rule for target.
+sdl2helloworld: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdl2helloworld
+.PHONY : sdl2helloworld
+
+# fast build rule for target.
+sdl2helloworld/fast:
+	$(MAKE) -f CMakeFiles/sdl2helloworld.dir/build.make CMakeFiles/sdl2helloworld.dir/build
+.PHONY : sdl2helloworld/fast
+
+#=============================================================================
 # Target rules for targets named sdlplay
 
 # Build rule for target.
@@ -122,6 +135,33 @@ sdlplay: cmake_check_build_system
 sdlplay/fast:
 	$(MAKE) -f CMakeFiles/sdlplay.dir/build.make CMakeFiles/sdlplay.dir/build
 .PHONY : sdlplay/fast
+
+sdl2helloworld.o: sdl2helloworld.cpp.o
+
+.PHONY : sdl2helloworld.o
+
+# target to build an object file
+sdl2helloworld.cpp.o:
+	$(MAKE) -f CMakeFiles/sdl2helloworld.dir/build.make CMakeFiles/sdl2helloworld.dir/sdl2helloworld.cpp.o
+.PHONY : sdl2helloworld.cpp.o
+
+sdl2helloworld.i: sdl2helloworld.cpp.i
+
+.PHONY : sdl2helloworld.i
+
+# target to preprocess a source file
+sdl2helloworld.cpp.i:
+	$(MAKE) -f CMakeFiles/sdl2helloworld.dir/build.make CMakeFiles/sdl2helloworld.dir/sdl2helloworld.cpp.i
+.PHONY : sdl2helloworld.cpp.i
+
+sdl2helloworld.s: sdl2helloworld.cpp.s
+
+.PHONY : sdl2helloworld.s
+
+# target to generate assembly for a file
+sdl2helloworld.cpp.s:
+	$(MAKE) -f CMakeFiles/sdl2helloworld.dir/build.make CMakeFiles/sdl2helloworld.dir/sdl2helloworld.cpp.s
+.PHONY : sdl2helloworld.cpp.s
 
 sdl2play.o: sdl2play.cpp.o
 
@@ -158,7 +198,11 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... sdl2helloworld"
 	@echo "... sdlplay"
+	@echo "... sdl2helloworld.o"
+	@echo "... sdl2helloworld.i"
+	@echo "... sdl2helloworld.s"
 	@echo "... sdl2play.o"
 	@echo "... sdl2play.i"
 	@echo "... sdl2play.s"

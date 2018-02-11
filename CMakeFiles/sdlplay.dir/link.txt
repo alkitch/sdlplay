@@ -1,1 +1,1 @@
-/usr/bin/c++      CMakeFiles/sdlplay.dir/sdl2play.cpp.o  -o sdlplay -L/usr/lib/i386-linux-gnu  -lSDL2 -lpthread 
+/usr/bin/c++      CMakeFiles/sdlplay.dir/sdl2play.cpp.o  -o sdlplay -L/usr/lib/arm-linux-gnueabihf  -lSDL2 -lpthread 

@@ -11,18 +11,15 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.7.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.7.2/CMakeSystem.cmake"
   "CMakeLists.txt"
-  "/usr/lib/i386-linux-gnu/cmake/SDL2/sdl2-config.cmake"
+  "/usr/lib/arm-linux-gnueabihf/cmake/SDL2/sdl2-config.cmake"
   "/usr/share/cmake-3.7/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.7/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.7/Modules/CMakeCommonLanguageInclude.cmake"
-  "/usr/share/cmake-3.7/Modules/CMakeConfigurableFile.in"
   "/usr/share/cmake-3.7/Modules/CMakeGenericSystem.cmake"
   "/usr/share/cmake-3.7/Modules/CMakeLanguageInformation.cmake"
   "/usr/share/cmake-3.7/Modules/CMakeParseArguments.cmake"
   "/usr/share/cmake-3.7/Modules/CMakeSystemSpecificInformation.cmake"
   "/usr/share/cmake-3.7/Modules/CMakeSystemSpecificInitialize.cmake"
-  "/usr/share/cmake-3.7/Modules/CheckFunctionExists.c"
-  "/usr/share/cmake-3.7/Modules/CheckIncludeFile.c.in"
   "/usr/share/cmake-3.7/Modules/CheckIncludeFile.cmake"
   "/usr/share/cmake-3.7/Modules/CheckLibraryExists.cmake"
   "/usr/share/cmake-3.7/Modules/CheckSymbolExists.cmake"
@@ -31,6 +28,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.7/Modules/Compiler/GNU.cmake"
   "/usr/share/cmake-3.7/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.7/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake-3.7/Modules/FindSDL2TTF.cmake"
   "/usr/share/cmake-3.7/Modules/FindThreads.cmake"
   "/usr/share/cmake-3.7/Modules/Platform/Linux-GNU-C.cmake"
   "/usr/share/cmake-3.7/Modules/Platform/Linux-GNU-CXX.cmake"
@@ -52,5 +50,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/sdl2helloworld.dir/DependInfo.cmake"
   "CMakeFiles/sdlplay.dir/DependInfo.cmake"
   )

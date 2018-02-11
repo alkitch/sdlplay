@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/pi/Projects/sdl/sdlplay/sdl2play.cpp
-iostream
--
-cmath
--
+/home/pi/Projects/sdl/sdlplay/sdl2helloworld.cpp
 SDL2/SDL.h
+-
+SDL2/SDL_ttf.h
+-
+stdio.h
 -
 

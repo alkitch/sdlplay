@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/sdl2helloworld.dir/sdl2helloworld.cpp.o  -o sdl2helloworld /usr/lib/arm-linux-gnueabihf/libSDL2_ttf.so /usr/lib/arm-linux-gnueabihf/libSDL2_ttf.so /usr/lib/arm-linux-gnueabihf/libSDL2_ttf.so /usr/lib/arm-linux-gnueabihf/libSDL2_ttf.so -lpthread -lpthread -lpthread -L/usr/lib/arm-linux-gnueabihf  -lSDL2 -lpthread 

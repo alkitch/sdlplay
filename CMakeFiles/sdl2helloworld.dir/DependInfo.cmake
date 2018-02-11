@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pi/Projects/sdl/sdlplay/sdl2play.cpp" "/home/pi/Projects/sdl/sdlplay/CMakeFiles/sdlplay.dir/sdl2play.cpp.o"
+  "/home/pi/Projects/sdl/sdlplay/sdl2helloworld.cpp" "/home/pi/Projects/sdl/sdlplay/CMakeFiles/sdl2helloworld.dir/sdl2helloworld.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
