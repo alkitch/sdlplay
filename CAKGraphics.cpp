@@ -2,8 +2,9 @@
 #include <SDL2/SDL_ttf.h>
 
 
+#include "audio.h"
 #include "CAKGraphics.h"
-
+#define EVENT_TAP_IN_RESET 0
 
 
 CAKGraphics::CAKGraphics()
@@ -28,7 +29,7 @@ void CAKGraphics::graphics_destroybackground()
 
 void CAKGraphics::graphics_destroy()
 {  
-
+  endAudio();
   graphics_destroytext();
   graphics_destroybackground();
   SDL_DestroyRenderer(renderer);
@@ -99,7 +100,122 @@ bool CAKGraphics::graphics_init()
   if(window == NULL) return false;
 
   renderer = SDL_CreateRenderer(window, -1, 0);
+  
+  initAudio();
 
-	return true;
+  return true;
   
   }
+  
+  void CAKGraphics::graphics_updatewindow()
+  {
+	  	SDL_RenderPresent(renderer);
+		SDL_UpdateWindowSurface(window);
+  }
+  
+    void CAKGraphics::graphics_update()
+  {
+	  	SDL_RenderPresent(renderer);
+
+  }
+  
+  typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void* param);
+
+
+
+
+SDL_TimerID CAKGraphics::idTapTimer = (SDL_TimerID)0;
+
+Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
+{
+	SDL_Event event;
+    SDL_UserEvent userevent;
+
+    userevent.type = SDL_USEREVENT;
+    userevent.code = EVENT_TAP_IN_RESET;
+    userevent.data1 = NULL;
+    userevent.data2 = NULL;
+
+    event.type = SDL_USEREVENT;
+    event.user = userevent;
+
+    SDL_PushEvent(&event);
+    return 0;
+}
+
+  
+ bool CAKGraphics::graphics_run()
+{  
+   bool quit = false;
+   SDL_Event event;
+   
+   playSound("/home/pi/Projects/sdl/sdlplay/door2.wav", SDL_MIX_MAXVOLUME / 2);
+   
+   while (!quit)
+    {
+        SDL_WaitEvent(&event);
+ 
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            quit = true;
+            break;
+        case SDL_WINDOWEVENT:
+			switch(event.window.event){
+
+						case SDL_WINDOWEVENT_SHOWN:
+						case SDL_WINDOWEVENT_EXPOSED:
+						case SDL_WINDOWEVENT_MOVED:
+						case SDL_WINDOWEVENT_RESIZED:
+						case SDL_WINDOWEVENT_SIZE_CHANGED:
+							 SDL_RenderPresent(renderer);
+							 break;
+						default:
+							break;
+			}
+			break;
+		case SDL_KEYUP:
+			if( (char)(event.key.keysym.sym) == SDLK_z){
+				//akgraphics->graphics_drawbackground();
+				SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
+				SDL_RenderClear(renderer);
+				graphics_text("Signed in", {0,0,0} );
+				SDL_RenderPresent(renderer);
+				playSound("/home/pi/Projects/sdl/sdlplay/good.wav", SDL_MIX_MAXVOLUME/2);
+				if( idTapTimer != (SDL_TimerID)0 )
+						SDL_RemoveTimer(idTapTimer);
+				SDL_AddTimer(2000,CAKGraphics::TapInTimerCallback,NULL);  
+			} 
+			if( (char)(event.key.keysym.sym) == SDLK_x){
+				//akgraphics->graphics_drawbackground();
+				SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
+				SDL_RenderClear(renderer);
+				graphics_text("Unknown", {0,0,0} );
+				SDL_RenderPresent(renderer);
+				playSound("/home/pi/Projects/sdl/sdlplay/fail.wav", SDL_MIX_MAXVOLUME/2);
+				if( idTapTimer != (SDL_TimerID)0 )
+						SDL_RemoveTimer(idTapTimer);
+				SDL_AddTimer(2000,CAKGraphics::TapInTimerCallback,NULL);  
+			} 
+			break;
+			
+		case SDL_USEREVENT: {
+               if( event.user.code == EVENT_TAP_IN_RESET )
+               {
+				    SDL_RemoveTimer( idTapTimer );
+				    idTapTimer = (SDL_TimerID)0; 
+				   	graphics_drawbackground();
+
+					graphics_text("Tap to Sign In", {0,0,0x3F} );
+					SDL_RenderPresent(renderer);
+					
+		       }
+               break;
+               }         
+         }
+  
+        
+    }
+    return true;
+}
+

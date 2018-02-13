@@ -34,8 +34,15 @@ public:
 
 	bool graphics_drawbackground();
 	bool graphics_background(const char* imagefile);
+	
+    void graphics_updatewindow();
+    void graphics_update();
 
 	bool graphics_init();
+	bool graphics_run();
+private:
+	static SDL_TimerID idTapTimer;
+	static Uint32 TapInTimerCallback(Uint32 interval, void* param);
 
 };
 
