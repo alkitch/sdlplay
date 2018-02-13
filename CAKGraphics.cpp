@@ -1,9 +1,6 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
-
-#include "audio.h"
 #include "CAKGraphics.h"
+
 #define EVENT_TAP_IN_RESET 0
 
 

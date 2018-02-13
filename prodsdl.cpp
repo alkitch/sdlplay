@@ -2,13 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
-#include "audio.h"
 #include "CAKGraphics.h"
-
-
 
 
 int main(int argc, char* args[]) 

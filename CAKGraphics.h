@@ -1,3 +1,7 @@
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include "audio.h"
+
 
 #define SCREEN_WIDTH 480 
 //1280
