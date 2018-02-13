@@ -1,6 +1,8 @@
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 480 
+//1280
+#define SCREEN_HEIGHT 320
+
 
 class CAKGraphics
 {

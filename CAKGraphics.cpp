@@ -48,8 +48,8 @@ bool CAKGraphics::graphics_drawtext(TTF_Font* font, const char* message, SDL_Col
 	SDL_Texture* textmessage = SDL_CreateTextureFromSurface(renderer, textsurface); //now you can convert it into a texture
 	
 	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = (SCREEN_WIDTH/2);  //controls the rect's x coordinate 
-	Message_rect.y = (SCREEN_HEIGHT/2); // controls the rect's y coordinte
+	Message_rect.x = (SCREEN_WIDTH/2)-(w/2);  //controls the rect's x coordinate 
+	Message_rect.y = (SCREEN_HEIGHT/2)-(h/2); // controls the rect's y coordinte
 	Message_rect.w = w; // controls the width of the rect
 	Message_rect.h = h; // controls the height of the rect
 
@@ -85,13 +85,13 @@ bool CAKGraphics::graphics_background(const char* imagefile)
 
 bool CAKGraphics::graphics_init()
 {
- 
-  if (TTF_Init() < 0  || SDL_Init(SDL_INIT_VIDEO) < 0 || SDL_Init(SDL_INIT_AUDIO) < 0) {
+  
+  if (TTF_Init() < 0  || SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_TIMER) < 0 ) {
 		return false;
   }
 
   window = SDL_CreateWindow(
-			    "2427 (Biggin Hill) Sqn CIS",
+		 	    "2427 (Biggin Hill) Sqn CIS",
 			    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			    SCREEN_WIDTH, SCREEN_HEIGHT,
 			    SDL_WINDOW_BORDERLESS

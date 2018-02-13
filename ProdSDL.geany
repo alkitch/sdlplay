@@ -28,10 +28,11 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
-FILE_NAME_0=2026;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2FCAKGraphics.cpp;0;4
-FILE_NAME_1=727;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodsdl.cpp;0;4
-FILE_NAME_2=635;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fmakesdl;0;4
+current_page=1
+FILE_NAME_0=2548;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2FCAKGraphics.cpp;0;4
+FILE_NAME_1=269;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodsdl.cpp;0;4
+FILE_NAME_2=620;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fmakesdl;0;4
+FILE_NAME_3=423;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2FCAKGraphics.h;0;4
 
 [VTE]
 last_dir=/home/pi
