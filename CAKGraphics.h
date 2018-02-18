@@ -7,6 +7,21 @@
 //1280
 #define SCREEN_HEIGHT 320
 
+#define EVENT_TAP_IN_RESET 0
+#define EVENT_TAP_FROM_WEBRESPONSE 1
+
+typedef struct _tagRfidData
+{
+		int rfidcode;
+		int rfidstatus;
+		int rfidpersonid;
+		char rfidpersonstr[256];
+		bool rfidbirthday;
+}RFIDData;
+
+
+
+
 
 class CAKGraphics
 {
@@ -43,10 +58,11 @@ public:
     void graphics_update();
 
 	bool graphics_init();
-	bool graphics_run();
+	bool graphics_run(void* context);
 private:
 	static SDL_TimerID idTapTimer;
 	static Uint32 TapInTimerCallback(Uint32 interval, void* param);
+	static bool ParseRfidData(char* rfidcontent, RFIDData* rfiddata); 
 
 };
 

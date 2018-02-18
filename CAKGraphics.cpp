@@ -1,7 +1,32 @@
-
+#include <pthread.h>
+#include "prodcom.h"
+#include <CkJsonObject.h>
 #include "CAKGraphics.h"
 
-#define EVENT_TAP_IN_RESET 0
+
+typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void* param);
+
+bool CAKGraphics::ParseRfidData(char* rfidcontent, RFIDData* rfiddata)
+{
+	CkJsonObject json;
+
+ 
+    bool success = json.Load(rfidcontent);
+    if (success != true) {
+            return false;
+    }
+    rfiddata->rfidcode = json.IntOf("rfid");
+    rfiddata->rfidstatus = json.IntOf("rfidStatus");
+    rfiddata->rfidpersonid = json.IntOf("personference");
+    strcpy(rfiddata->rfidpersonstr,json.stringOf("personTitle"));
+    rfiddata->rfidbirthday = json.BoolOf("birthday");
+    
+    return true;    
+
+
+}
+
+SDL_TimerID CAKGraphics::idTapTimer = (SDL_TimerID)0;
 
 
 CAKGraphics::CAKGraphics()
@@ -37,8 +62,6 @@ void CAKGraphics::graphics_destroy()
 
 bool CAKGraphics::graphics_drawtext(TTF_Font* font, const char* message, SDL_Color color)
 {
-	//SDL_Color White = {255, 128, 0};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-	
 	int w, h;
 	TTF_SizeText(font, message, &w, &h);
 
@@ -58,7 +81,7 @@ bool CAKGraphics::graphics_drawtext(TTF_Font* font, const char* message, SDL_Col
 bool CAKGraphics::graphics_text(const char* message, SDL_Color color)
 {
 
-   	textfont = TTF_OpenFont("DejaVuSans.ttf", 52); //this opens a font style and sets a size
+   	textfont = TTF_OpenFont("./fonts/DejaVuSans.ttf", 42); //this opens a font style and sets a size
 	if(textfont == NULL)
 		return false;
 
@@ -116,12 +139,7 @@ bool CAKGraphics::graphics_init()
 
   }
   
-  typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void* param);
 
-
-
-
-SDL_TimerID CAKGraphics::idTapTimer = (SDL_TimerID)0;
 
 Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
 {
@@ -141,22 +159,26 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
 }
 
   
- bool CAKGraphics::graphics_run()
+ bool CAKGraphics::graphics_run(void* context)
 {  
-   bool quit = false;
+   cp_t* temp = (cp_t*)context;
+   volatile bool quit = false;
    SDL_Event event;
    
-   playSound("/home/pi/Projects/sdl/sdlplay/door2.wav", SDL_MIX_MAXVOLUME / 2);
+   playSound("./sound/door2.wav", SDL_MIX_MAXVOLUME / 2);
    
    while (!quit)
-    {
+   {
         SDL_WaitEvent(&event);
  
         switch (event.type)
         {
+        
         case SDL_QUIT:
+            temp->quitflag = true;
             quit = true;
-            break;
+            return false;
+            
         case SDL_WINDOWEVENT:
 			switch(event.window.event){
 
@@ -178,7 +200,7 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
 				SDL_RenderClear(renderer);
 				graphics_text("Signed in", {0,0,0} );
 				SDL_RenderPresent(renderer);
-				playSound("/home/pi/Projects/sdl/sdlplay/good.wav", SDL_MIX_MAXVOLUME/2);
+				playSound("./sound/good.wav", SDL_MIX_MAXVOLUME/2);
 				if( idTapTimer != (SDL_TimerID)0 )
 						SDL_RemoveTimer(idTapTimer);
 				SDL_AddTimer(2000,CAKGraphics::TapInTimerCallback,NULL);  
@@ -189,7 +211,7 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
 				SDL_RenderClear(renderer);
 				graphics_text("Unknown", {0,0,0} );
 				SDL_RenderPresent(renderer);
-				playSound("/home/pi/Projects/sdl/sdlplay/fail.wav", SDL_MIX_MAXVOLUME/2);
+				playSound("./sound/fail.wav", SDL_MIX_MAXVOLUME/2);
 				if( idTapTimer != (SDL_TimerID)0 )
 						SDL_RemoveTimer(idTapTimer);
 				SDL_AddTimer(2000,CAKGraphics::TapInTimerCallback,NULL);  
@@ -197,6 +219,37 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
 			break;
 			
 		case SDL_USEREVENT: {
+			   if( event.user.code == EVENT_TAP_FROM_WEBRESPONSE )
+			   {
+						RFIDData rfiddata;
+						char rfidsound[256];
+				   		if( (int)event.user.data2 > 0 )
+						{
+							    ParseRfidData((char*)event.user.data1, &rfiddata);
+								free( event.user.data1 );
+						}
+						
+						SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
+						SDL_RenderClear(renderer);
+						if( rfiddata.rfidstatus == 0 )
+						{
+							graphics_text( rfiddata.rfidpersonstr, {255,0,0} );
+							strcpy(rfidsound , "./sound/good.wav");
+						}
+						if( rfiddata.rfidstatus == -1 )
+						{
+							graphics_text( "Unknown", {0,0,255} );
+							strcpy(rfidsound , "./sound/fail.wav");						
+						}	
+						SDL_RenderPresent(renderer);
+						playSound(rfidsound, SDL_MIX_MAXVOLUME/2);
+						if( idTapTimer != (SDL_TimerID)0 )
+							SDL_RemoveTimer(idTapTimer);
+						SDL_AddTimer(2000,CAKGraphics::TapInTimerCallback,NULL);  
+
+							 
+			   }
+			
                if( event.user.code == EVENT_TAP_IN_RESET )
                {
 				    SDL_RemoveTimer( idTapTimer );
@@ -213,6 +266,6 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
   
         
     }
-    return true;
+    return false;
 }
 

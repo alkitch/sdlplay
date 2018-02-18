@@ -1,10 +1,10 @@
 LINK_TARGET = prodsdl
-OBJS = prodsdl.o CAKGraphics.o audio.o
+OBJS = prodsdl.o CAKGraphics.o audio.o prodcom.o prodnfc.o prodweb.o
 INCLUDES = -I/home/pi/chilkat-9.5.0/include -I/home/pi/libnfc/include/nfc -I/usr/include/SDL2
 LIBS = -pthread -lwiringPi -lnfc -lchilkat-9.5.0 -lSDL2 -lSDL2_ttf -lSDL2_mixer
 LIBPATHS = -L/home/pi/chilkat-9.5.0/lib -L/home/pi/libnfc/libnfc -L/usr/lib/arm-linux-gnueabihf
-FLAGS = -g
-CFLAGS = -g
+FLAGS = -g 
+CFLAGS = -g 
 CC=g++
 
 all : $(LINK_TARGET)
@@ -21,6 +21,15 @@ CAKGraphics.o: CAKGraphics.cpp CAKGraphics.h
 	  
 audio.o: audio.c
 	$(CC) $(CFLAGS) -c $< $(INCLUDES)
+	
+prodcom.o: prodcom.cpp prodcom.h
+	  $(CC) $(CFLAGS) -c $< $(INCLUDES)
+
+prodnfc.o: prodnfc.cpp prodcom.h
+	  $(CC) $(CFLAGS) -c $< $(INCLUDES)
+
+prodweb.o: prodweb.cpp prodcom.h
+	  $(CC) $(CFLAGS) -c $< $(INCLUDES)
 
 
 clean : $(OBJS)
