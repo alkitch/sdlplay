@@ -30,7 +30,7 @@ bool nfc_init(void *nfc_context);
 void nfc_exit(void *nfc_context);
 void *nfc_in_handler(void *nfc_context);
 
-bool web_init(void);
+bool web_init(void* config);
 void *web_out_handler(void *nfc_context);
 
 #ifdef Monitor

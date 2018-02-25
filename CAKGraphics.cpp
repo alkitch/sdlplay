@@ -6,6 +6,29 @@
 
 typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void* param);
 
+
+void CAKConfig::ReadConfig(const char* configfile)
+{
+	CkJsonObject json;
+
+ 
+    bool success = json.LoadFile(configfile);
+    if( success == true )
+    {
+				strcpy(fontpath, json.stringOf("font"));
+				fontsize = json.IntOf("fontsize");
+			    strcpy(serviceurl, json.stringOf("service"));       //":"http://alansw550/aweb2427/home/rfid"
+				strcpy(servicelocation, json.stringOf("servicelocation"));    //:"frontdoor"
+				strcpy(initsound, json.stringOf("initsound"));      //:"./sound/door2.wav"
+				strcpy(initimage, json.stringOf("initimage"));     // "./images/typhoon.bmp"
+				strcpy(rfidinsound, json.stringOf("rfidinsound")); //:"./sound/good.wav"
+				strcpy(rfidnosound, json.stringOf("rfidnosound")); //:"./sound/fail.wav"
+	}
+    
+}
+
+
+
 bool CAKGraphics::ParseRfidData(char* rfidcontent, RFIDData* rfiddata)
 {
 	CkJsonObject json;
@@ -31,6 +54,7 @@ SDL_TimerID CAKGraphics::idTapTimer = (SDL_TimerID)0;
 
 CAKGraphics::CAKGraphics()
 {
+	textfont = NULL;
 }
 
 CAKGraphics::~CAKGraphics(){}
@@ -81,9 +105,12 @@ bool CAKGraphics::graphics_drawtext(TTF_Font* font, const char* message, SDL_Col
 bool CAKGraphics::graphics_text(const char* message, SDL_Color color)
 {
 
-   	textfont = TTF_OpenFont("./fonts/DejaVuSans.ttf", 42); //this opens a font style and sets a size
+	if( textfont == NULL ){
+		
+   	textfont = TTF_OpenFont(config.fontpath, config.fontsize); //this opens a font style and sets a size
 	if(textfont == NULL)
 		return false;
+	}
 
 	return graphics_drawtext(textfont, message, color);
 
@@ -95,6 +122,13 @@ bool CAKGraphics::graphics_drawbackground()
   SDL_RenderCopy(renderer, background, NULL, &dstrect);
 }
 
+bool CAKGraphics::graphics_clearbackground( ushort r, ushort g, ushort b )
+{
+				SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+				SDL_RenderClear(renderer);
+				return true;
+} 
+
 bool CAKGraphics::graphics_background(const char* imagefile)
 {
   backgroundsurface = SDL_LoadBMP(imagefile); 
@@ -103,13 +137,15 @@ bool CAKGraphics::graphics_background(const char* imagefile)
 }
 
 
-
 bool CAKGraphics::graphics_init()
 {
   
   if (TTF_Init() < 0  || SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_TIMER) < 0 ) {
 		return false;
   }
+  
+  config.ReadConfig("./prodsdl.cfg");
+  
 
   window = SDL_CreateWindow(
 		 	    "2427 (Biggin Hill) Sqn CIS",
@@ -126,6 +162,17 @@ bool CAKGraphics::graphics_init()
   return true;
   
   }
+  
+  void CAKGraphics::graphics_initdisplay()
+  {
+					if( config.initimage[0] != (char)'\0' ){
+						graphics_background(config.initimage); 
+						graphics_text("Tap to Sign In", {0,0,0x3f} );
+					}else{
+						graphics_clearbackground( 0, 0, 255 );
+						graphics_text("Tap to Sign In", {255,255,255} );
+					}
+ }
   
   void CAKGraphics::graphics_updatewindow()
   {
@@ -165,7 +212,7 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
    volatile bool quit = false;
    SDL_Event event;
    
-   playSound("./sound/door2.wav", SDL_MIX_MAXVOLUME / 2);
+   playSound(config.initsound, SDL_MIX_MAXVOLUME / 2);
    
    while (!quit)
    {
@@ -195,23 +242,21 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
 			break;
 		case SDL_KEYUP:
 			if( (char)(event.key.keysym.sym) == SDLK_z){
-				//akgraphics->graphics_drawbackground();
-				SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
+				
+				graphics_clearbackground(0,128, 0);
 				SDL_RenderClear(renderer);
-				graphics_text("Signed in", {0,0,0} );
+				graphics_text("Signed in", {255,255,255} );
 				SDL_RenderPresent(renderer);
-				playSound("./sound/good.wav", SDL_MIX_MAXVOLUME/2);
+				playSound(config.rfidinsound, SDL_MIX_MAXVOLUME/2);
 				if( idTapTimer != (SDL_TimerID)0 )
 						SDL_RemoveTimer(idTapTimer);
 				SDL_AddTimer(2000,CAKGraphics::TapInTimerCallback,NULL);  
 			} 
 			if( (char)(event.key.keysym.sym) == SDLK_x){
-				//akgraphics->graphics_drawbackground();
-				SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
-				SDL_RenderClear(renderer);
-				graphics_text("Unknown", {0,0,0} );
+				graphics_clearbackground(255,0, 0);
+				graphics_text("Unknown", {255,255,255} );
 				SDL_RenderPresent(renderer);
-				playSound("./sound/fail.wav", SDL_MIX_MAXVOLUME/2);
+				playSound(config.rfidnosound, SDL_MIX_MAXVOLUME/2);
 				if( idTapTimer != (SDL_TimerID)0 )
 						SDL_RemoveTimer(idTapTimer);
 				SDL_AddTimer(2000,CAKGraphics::TapInTimerCallback,NULL);  
@@ -229,17 +274,18 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
 								free( event.user.data1 );
 						}
 						
-						SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
-						SDL_RenderClear(renderer);
+						
 						if( rfiddata.rfidstatus == 0 )
 						{
-							graphics_text( rfiddata.rfidpersonstr, {255,0,0} );
-							strcpy(rfidsound , "./sound/good.wav");
+							graphics_clearbackground(0,255,0);
+							graphics_text( rfiddata.rfidpersonstr, {255,255,255} );
+							strcpy(rfidsound , config.rfidinsound);
 						}
 						if( rfiddata.rfidstatus == -1 )
 						{
-							graphics_text( "Unknown", {0,0,255} );
-							strcpy(rfidsound , "./sound/fail.wav");						
+							graphics_clearbackground(255,0,0);
+							graphics_text( "Unknown", {255,255,255} );
+							strcpy(rfidsound , config.rfidnosound);						
 						}	
 						SDL_RenderPresent(renderer);
 						playSound(rfidsound, SDL_MIX_MAXVOLUME/2);
@@ -254,9 +300,7 @@ Uint32 CAKGraphics::TapInTimerCallback(Uint32 interval, void* param)
                {
 				    SDL_RemoveTimer( idTapTimer );
 				    idTapTimer = (SDL_TimerID)0; 
-				   	graphics_drawbackground();
-
-					graphics_text("Tap to Sign In", {0,0,0x3F} );
+					graphics_initdisplay();
 					SDL_RenderPresent(renderer);
 					
 		       }

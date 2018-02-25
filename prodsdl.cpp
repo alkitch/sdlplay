@@ -15,7 +15,7 @@ int main(int argc, char* args[])
 
 	 if( akgraphics.graphics_init() == true )
 	 {
-			 if( web_init() == true ){
+			 if( web_init(&akgraphics.config) == true ){
 
 				if( nfc_init(&nfccontext) == true )
 				{
@@ -24,9 +24,8 @@ int main(int argc, char* args[])
 					pthread_create(&uid_in, NULL, nfc_in_handler, (void *) &nfccontext);
 					pthread_create(&uid_out, NULL, web_out_handler, (void *) &nfccontext);
 
-			
-					akgraphics.graphics_background("./images/typhoon.bmp"); 
-					akgraphics.graphics_text("Tap to Sign In", {0,0,0x3F} );
+
+					akgraphics.graphics_initdisplay();
 
 					akgraphics.graphics_updatewindow();
 					

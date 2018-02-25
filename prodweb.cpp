@@ -12,10 +12,15 @@
 #include "CAKGraphics.h"
 
 
+static CAKConfig* m_pConfig = NULL;
+
 bool HttpPrepare(int v);
 
-bool web_init(void)
+bool web_init(void* pConfig)
 {
+	
+   m_pConfig = (CAKConfig*)pConfig;
+   
    CkHttp httx;
    bool success = httx.UnlockComponent("Anything for 30-day trial");
     if (success != true) {
@@ -68,7 +73,7 @@ bool HttpPrepare(int v)
     bool success = json.AddIntAt(-1,"nRfid",v);
     if(success)
     {
-     success = json.AddStringAt(-1,"RfidLocation","FrontDoor");
+     success = json.AddStringAt(-1,"RfidLocation",m_pConfig->servicelocation);
      json.put_EmitCompact(true);
     }
 
@@ -82,7 +87,7 @@ bool HttpPrepare(int v)
     printf("%s\n", json.emit() );
 #endif
     
-    CkHttpResponse *resp = http.PostJson("http://alansw550/aweb2427/home/rfid",json.emit() ); 
+    CkHttpResponse *resp = http.PostJson(m_pConfig->serviceurl,json.emit() ); 
     if (resp == 0 ) {
         printf("%s\r\n", http.lastErrorText() );
         return false;
@@ -93,7 +98,6 @@ bool HttpPrepare(int v)
 			strcpy( buf, resp->bodyStr() );
 			SDL_Event event;
 			SDL_UserEvent userevent;
-
 			userevent.type = SDL_USEREVENT;
 			userevent.code = EVENT_TAP_FROM_WEBRESPONSE;
 			char* p = (char*)malloc( strlen(buf)+1 );
@@ -102,11 +106,7 @@ bool HttpPrepare(int v)
 			userevent.data2 = (void*)strlen(p);
 			event.type = SDL_USEREVENT;
 			event.user = userevent;
-
 			SDL_PushEvent(&event);
-
-			//  Display the JSON response.
-			//printf("Response Body = %s\r\n", resp->bodyStr() );
         delete resp;
     }
     

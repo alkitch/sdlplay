@@ -20,7 +20,26 @@ typedef struct _tagRfidData
 }RFIDData;
 
 
+class CAKConfig
+{
+public:
+	  char fontpath[256];
+	  int  fontsize;
 
+	  char serviceurl[256];       //":"http://alansw550/aweb2427/home/rfid"
+	  char servicelocation[256];  //"servicelocation":"frontdoor"
+      char initsound[256];        //"initsound":"./sound/door2.wav"
+      char initimage[256];		  //"initimage": .
+      char rfidinsound[256];      //"rfidinsound":"./sound/good.wav"
+      char rfidnosound[256];      //"rfidnosound":"./sound/fail.wav"
+public:
+
+	  CAKConfig(){
+			initimage[0] = (char)'\0';
+	  }
+	  void ReadConfig(const char* configfile);
+	
+};
 
 
 class CAKGraphics
@@ -44,6 +63,8 @@ public:
 	CAKGraphics();
 	~CAKGraphics();
 
+
+
 	void graphics_destroytext();
 	void graphics_destroybackground();
 	void graphics_destroy();
@@ -51,7 +72,11 @@ public:
 	bool graphics_drawtext(TTF_Font* font, const char* message, SDL_Color color);
 	bool graphics_text(const char* message, SDL_Color color);
 
+
+	void graphics_initdisplay();
+	
 	bool graphics_drawbackground();
+	bool graphics_clearbackground( ushort r, ushort g, ushort b ); 
 	bool graphics_background(const char* imagefile);
 	
     void graphics_updatewindow();
@@ -59,10 +84,16 @@ public:
 
 	bool graphics_init();
 	bool graphics_run(void* context);
+
+	CAKConfig config;
+	
 private:
 	static SDL_TimerID idTapTimer;
 	static Uint32 TapInTimerCallback(Uint32 interval, void* param);
-	static bool ParseRfidData(char* rfidcontent, RFIDData* rfiddata); 
+	static bool ParseRfidData(char* rfidcontent, RFIDData* rfiddata);
+	
+	
+ 
 
 };
 

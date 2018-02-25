@@ -28,15 +28,13 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=3
-FILE_NAME_0=754;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodsdl.cpp;0;4
-FILE_NAME_1=881;None;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fmakesdl;0;4
-FILE_NAME_2=237;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodcom.cpp;0;4
-FILE_NAME_3=6717;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2FCAKGraphics.cpp;0;4
-FILE_NAME_4=102;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodweb.cpp;0;4
-FILE_NAME_5=1164;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2FCAKGraphics.h;0;4
-FILE_NAME_6=353;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodcom.h;0;4
-FILE_NAME_7=16867;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fchilkat-9.5.0%2Finclude%2FCkJsonObject.h;0;4
+current_page=2
+FILE_NAME_0=2115;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodweb.cpp;0;4
+FILE_NAME_1=34;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodcom.h;0;4
+FILE_NAME_2=167;Conf;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodsdl.cfg;0;4
+FILE_NAME_3=1111;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2FCAKGraphics.cpp;0;4
+FILE_NAME_4=608;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2Fprodsdl.cpp;0;4
+FILE_NAME_5=851;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2FProjects%2Fsdl%2Fsdlplay%2FCAKGraphics.h;0;4
 
 [VTE]
 last_dir=/home/pi
